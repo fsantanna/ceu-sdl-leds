@@ -1,0 +1,48 @@
+#include "c.ceu"
+#include "sdl/sdl.ceu"
+
+#define MAX 3
+
+var int ex = 1;
+
+loop do
+    var int ex_ =
+    do
+        par do
+            if ex == 1 then
+                #include "led-01.ceu"
+            else/if ex == 2 then
+                #include "led-02.ceu"
+            else/if ex == 3 then
+                #include "led-03.ceu"
+            end
+        with
+            loop do
+                var _SDL_KeyboardEvent&& key = await SDL_KEYDOWN;
+                if key:keysym.sym==_SDLK_r or key:keysym.sym==_SDLK_DOWN or
+                                              key:keysym.sym==_SDLK_UP then
+                    ex = ex;
+                    break;
+                else/if key:keysym.sym==_SDLK_p or key:keysym.sym==_SDLK_LEFT then
+                    ex = ex - 1;
+                    break;
+                else/if key:keysym.sym==_SDLK_n or key:keysym.sym==_SDLK_RIGHT then
+                    ex = ex + 1;
+                    break;
+                end
+            end
+            if ex < 1 then
+                ex = MAX;
+            else/if ex > MAX then
+                ex = 1;
+            end
+            escape ex;
+        end
+    end;
+    ex = ex_;
+    if ex == 0 then
+        break;
+    end
+end;
+
+escape 0;
