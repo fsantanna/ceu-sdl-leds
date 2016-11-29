@@ -1,0 +1,35 @@
+#include "sdl/sdl.ceu"
+
+var& _SDL_Renderer ren;
+watching SDL_go("LED 5", 800,480, SDL_Color(0xCC,0xCC,0xCC,0xFF)) -> (&ren) do
+    code/await Led (var int x, var int y) -> FOREVER do
+        var bool is_on = false;
+        par do
+            loop do
+                watching SDL_MOUSEBUTTONDOWN do
+                    every 500ms do
+                        is_on = not is_on;
+                    end
+                end
+                await 2s;
+            end
+        with
+            every SDL_REDRAW do
+                _filledCircleRGBA(&&outer.ren, x,y,50, 0xFF,0xFF,0xFF,0xFF);
+                if is_on then
+                    _filledCircleRGBA(&&outer.ren, x,y,47, 0x00,0x88,0x00,0xFF);
+                else
+                    _filledCircleRGBA(&&outer.ren, x,y,47, 0x00,0x00,0x00,0xFF);
+                end
+            end
+        end
+    end
+
+    par do
+        await Led(100,100);
+    with
+        await Led(300,100);
+    end
+end
+
+escape 0;
