@@ -1,12 +1,17 @@
 #include "sdl/sdl.ceu"
 
 var& _SDL_Renderer ren;
-watching SDL_go("LED 4", 800,480, SDL_Color(0xCC,0xCC,0xCC,0xFF)) -> (&ren) do
+watching SDL_go("LED 4", 640,480, SDL_Color(0xCC,0xCC,0xCC,0xFF)) -> (&ren) do
     par do
         var bool is_on = false;
         par do
             loop do
-                watching SDL_MOUSEBUTTONDOWN do
+                par/or do
+                    var SDL_Point pt = val SDL_Point(100,100);
+                    var _SDL_MouseButtonEvent&& mse =
+                            await SDL_MOUSEBUTTONDOWN
+                            until (_SDL_Circle_vs_Mouse(&&pt as _SDL_Point&&,25,mse) as bool);
+                with
                     every 500ms do
                         is_on = not is_on;
                     end
@@ -27,7 +32,12 @@ watching SDL_go("LED 4", 800,480, SDL_Color(0xCC,0xCC,0xCC,0xFF)) -> (&ren) do
         var bool is_on = false;
         par do
             loop do
-                watching SDL_MOUSEBUTTONDOWN do
+                par/or do
+                    var SDL_Point pt = val SDL_Point(300,100);
+                    var _SDL_MouseButtonEvent&& mse =
+                            await SDL_MOUSEBUTTONDOWN
+                            until (_SDL_Circle_vs_Mouse(&&pt as _SDL_Point&&,25,mse) as bool);
+                with
                     every 500ms do
                         is_on = not is_on;
                     end
