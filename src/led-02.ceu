@@ -1,7 +1,7 @@
 #include "sdl/sdl.ceu"
 
 var& _SDL_Renderer ren;
-watching SDL_go("LED 2", 640,480, SDL_Color(0xCC,0xCC,0xCC,0xFF)) -> (&ren) do
+watching SDL_Init("LED 2", 640,480, SDL_Color(0xCC,0xCC,0xCC,0xFF)) -> (&ren) do
     var bool is_on = false;
     par do
         watching SDL_MOUSEBUTTONDOWN do
