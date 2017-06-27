@@ -1,7 +1,7 @@
 #include "sdl/sdl.ceu"
 
-var& _SDL_Renderer ren;
-watching SDL_Init("LED 2", 640,480, SDL_Color(0xCC,0xCC,0xCC,0xFF)) -> (&ren) do
+var&? SDL_Init sdl = spawn SDL_Init("LED 2", 640,480, SDL_Color(0xCC,0xCC,0xCC,0xFF));
+watching sdl do
     var bool is_on = false;
     par do
         watching SDL_MOUSEBUTTONDOWN do
@@ -12,11 +12,11 @@ watching SDL_Init("LED 2", 640,480, SDL_Color(0xCC,0xCC,0xCC,0xFF)) -> (&ren) do
         await FOREVER;
     with
         every SDL_REDRAW do
-            _filledCircleRGBA(&&ren, 200,200,50, 0xFF,0xFF,0xFF,0xFF);
+            _filledCircleRGBA(&&sdl.ren, 200,200,50, 0xFF,0xFF,0xFF,0xFF);
             if is_on then
-                _filledCircleRGBA(&&ren, 200,200,47, 0x00,0x88,0x00,0xFF);
+                _filledCircleRGBA(&&sdl.ren, 200,200,47, 0x00,0x88,0x00,0xFF);
             else
-                _filledCircleRGBA(&&ren, 200,200,47, 0x00,0x00,0x00,0xFF);
+                _filledCircleRGBA(&&sdl.ren, 200,200,47, 0x00,0x00,0x00,0xFF);
             end
         end
     end
