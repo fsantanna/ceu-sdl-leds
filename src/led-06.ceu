@@ -2,7 +2,7 @@
 
 var&? SDL_Init sdl = spawn SDL_Init("LED 6", 640,480, SDL_Color(0xCC,0xCC,0xCC,0xFF));
 watching sdl do
-    code/await Led (var int x, var int y) -> FOREVER do
+    code/await Led (var int x, var int y) -> NEVER do
         var bool is_on = false;
         par do
             loop do

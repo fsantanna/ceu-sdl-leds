@@ -2,7 +2,7 @@
 
 var&? SDL_Init sdl = spawn SDL_Init("LED 7", 640,480, SDL_Color(0xCC,0xCC,0xCC,0xFF));
 watching sdl do
-    code/await Led (var int x, var int y) -> FOREVER do
+    code/await Led (var int x, var int y) -> NEVER do
         var bool is_on = false;
         par do
             loop do
@@ -30,7 +30,7 @@ watching sdl do
         end
     end
 
-    code/await But (void) -> void do
+    code/await But (none) -> none do
         par/or do
             var SDL_Point pt = val SDL_Point(300,425);
             var _SDL_MouseButtonEvent&& mse =
